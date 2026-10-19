@@ -1,0 +1,108 @@
+/*
+ * RESET
+ * =====
+ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+*:not(dialog) {
+  margin: 0;
+}
+
+html {
+  /* Zabrání automatickému zvětšování textu na mobilu při otočení */
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+}
+
+/* Umožní animovat výšku na `auto` (details, accordion…) */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    interpolate-size: allow-keywords;
+  }
+}
+
+body {
+  min-height: 100dvh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Média jako blokové prvky, které nepřetečou rodiče */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* Formulářové prvky dědí písmo a barvu (prohlížeče je jinak nastavují vlastní) */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+}
+
+/* Dlouhá slova (např. vygenerované heslo) se zalomí místo přetečení */
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+/* Nadpisy nemají vlastní velikost ani tloušťku – vzhled určují text presety */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
+  font-weight: inherit;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/*
+ * Odrážky odstraň jen u seznamů s role="list".
+ * Safari při `list-style: none` přestane seznam ohlašovat čtečkám obrazovky,
+ * role="list" sémantiku vrací.
+ */
+ul[role="list"],
+ol[role="list"] {
+  list-style: none;
+  padding: 0;
+}
+
+/* Kořenový prvek Nuxtu vytváří nový stacking context – z-index komponent se nemíchá s okolím */
+#__nuxt {
+  isolation: isolate;
+}
+
+/* Respektuj uživatelské preference pro pohyb */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

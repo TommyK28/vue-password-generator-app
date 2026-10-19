@@ -13,9 +13,13 @@ export default defineNuxtConfig({
     head: {
       charset: 'utf-8',
       viewport: 'width=device-width, initial-scale=1',
-      title: 'Design System',
+      title: 'Password Generator',
       meta: [
-        { name: 'description', content: 'Vue 3 + Nuxt 3 + Vite Design System' }
+        { name: 'description', content: 'Frontend Mentor – Password Generator App (Vue 3 + Nuxt 3)' }
+      ],
+      link: [
+        // Lokální font (definice v assets/css/tokens/typography.css)
+        { rel: 'preload', href: '/fonts/jetbrains-mono/JetBrainsMono-Bold.woff2', as: 'font', type: 'font/woff2', crossorigin: '' }
       ]
     }
   },

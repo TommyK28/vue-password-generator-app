@@ -1,134 +1,76 @@
 /*
  * COLOR TOKENS
- * Používá moderní OKLCH barevný prostor (CSS Color Level 4)
+ * Paleta převzatá z Figma proměnných (Password Generator App – Style Guide).
+ * Hodnoty převedené z HEX do OKLCH
  * OKLCH: oklch(lightness chroma hue)
  *   - lightness: 0–1 (0 = černá, 1 = bílá)
  *   - chroma: 0–0.4+ (0 = šedá, vyšší = sytější)
  *   - hue: 0–360 (úhel na barevném kole)
  *
- * @property definuje typed custom properties (Houdini CSS)
- * Umožňuje animace, typovou kontrolu a dědičnost.
  */
 
-/* ─── Typed custom properties pro barvy ─── */
-@property --color-primary {
-  syntax: "<color>";
-  inherits: true;
-  initial-value: oklch(0.55 0.22 264);
-}
-
-@property --color-primary-light {
-  syntax: "<color>";
-  inherits: true;
-  initial-value: oklch(0.75 0.18 264);
-}
-
-@property --color-primary-dark {
-  syntax: "<color>";
-  inherits: true;
-  initial-value: oklch(0.40 0.22 264);
-}
-
-@property --color-secondary {
-  syntax: "<color>";
-  inherits: true;
-  initial-value: oklch(0.60 0.20 180);
-}
-
-@property --color-accent {
-  syntax: "<color>";
-  inherits: true;
-  initial-value: oklch(0.65 0.25 30);
-}
-
-@property --color-success {
-  syntax: "<color>";
-  inherits: true;
-  initial-value: oklch(0.60 0.18 145);
-}
-
-@property --color-warning {
-  syntax: "<color>";
-  inherits: true;
-  initial-value: oklch(0.75 0.20 80);
-}
-
-@property --color-danger {
-  syntax: "<color>";
-  inherits: true;
-  initial-value: oklch(0.55 0.22 25);
-}
-
-@property --color-info {
-  syntax: "<color>";
-  inherits: true;
-  initial-value: oklch(0.60 0.18 220);
-}
-
-/* ─── Neutralní paleta ─── */
 :root {
-  /* Primární barvy */
-  --color-primary:       oklch(0.55 0.22 264);
-  --color-primary-light: oklch(0.75 0.18 264);
-  --color-primary-dark:  oklch(0.40 0.22 264);
+  --color-white:      oklch(1 0 0);                /* #FFFFFF */
+  --color-black:      oklch(0 0 0);                /* #000000 */
 
-  /* Sekundární & akcentové */
-  --color-secondary: oklch(0.60 0.20 180);
-  --color-accent:    oklch(0.65 0.25 30);
+  --color-grey-950:   oklch(0.132 0.010 297.6);    /* #08070B */
+  --color-grey-900:   oklch(0.192 0.016 290.5);    /* #14131B */
+  --color-grey-850:   oklch(0.209 0.016 290.7);    /* #18171F */
+  --color-grey-800:   oklch(0.261 0.017 290.3);    /* #24232C */
+  --color-grey-700:   oklch(0.446 0.013 291.6);    /* #54535B */
+  --color-grey-600:   oklch(0.600 0.032 294.2);    /* #817D92 */
+  --color-grey-200:   oklch(0.924 0.007 295.4);    /* #E6E5EA */
 
-  /* Sémantické barvy */
-  --color-success: oklch(0.60 0.18 145);
-  --color-warning: oklch(0.75 0.20 80);
-  --color-danger:  oklch(0.55 0.22 25);
-  --color-info:    oklch(0.60 0.18 220);
+  --color-green-200:  oklch(0.923 0.139 147.3);    /* #A4FFAF */
+  --color-yellow-300: oklch(0.866 0.131 86.9);     /* #F8CD65 */
+  --color-orange-400: oklch(0.726 0.164 36.7);     /* #FB7C58 */
+  --color-red-500:    oklch(0.655 0.209 25.0);     /* #F64A4A */
 
-  /* Neutrální škála (gray) */
-  --color-neutral-0:   oklch(1.00 0 0);
-  --color-neutral-50:  oklch(0.97 0.005 264);
-  --color-neutral-100: oklch(0.94 0.008 264);
-  --color-neutral-200: oklch(0.88 0.010 264);
-  --color-neutral-300: oklch(0.80 0.012 264);
-  --color-neutral-400: oklch(0.70 0.012 264);
-  --color-neutral-500: oklch(0.58 0.010 264);
-  --color-neutral-600: oklch(0.46 0.010 264);
-  --color-neutral-700: oklch(0.36 0.008 264);
-  --color-neutral-800: oklch(0.26 0.006 264);
-  --color-neutral-900: oklch(0.18 0.005 264);
-  --color-neutral-950: oklch(0.10 0.003 264);
-  --color-neutral-1000: oklch(0 0 0);
+  /* Gradient 1 */
+  --gradient-1: linear-gradient(to right, var(--color-grey-900), var(--color-grey-950));
 
-  /* Sémantické aliasy povrchů */
-  --color-surface:          var(--color-neutral-0);
-  --color-surface-raised:   var(--color-neutral-50);
-  --color-surface-overlay:  var(--color-neutral-100);
-  --color-surface-sunken:   var(--color-neutral-200);
+  /* ═══ Sémantické aliasy ═══ */
 
-  /* Text */
-  --color-text:          var(--color-neutral-900);
-  --color-text-subtle:   var(--color-neutral-600);
-  --color-text-disabled: var(--color-neutral-400);
-  --color-text-inverse:  var(--color-neutral-0);
+  /* ─── Povrchy ─── */
+  --color-surface:        var(--color-grey-950);  /* pozadí stránky (pod gradientem) */
+  --background-page:      var(--gradient-1);      /* gradient přes pozadí stránky */
+  --color-surface-raised: var(--color-grey-800);  /* panel s heslem, panel s nastavením */
+  --color-surface-sunken: var(--color-grey-850);  /* box „Strength“ */
 
-  /* Border */
-  --color-border:         var(--color-neutral-200);
-  --color-border-strong:  var(--color-neutral-400);
-  --color-border-focus:   var(--color-primary);
-}
+  /* ─── Text ─── */
+  --color-text:             var(--color-grey-200);   /* heslo, „Character Length“, checkboxy, „MEDIUM“ */
+  --color-text-subtle:      var(--color-grey-600);   /* nadpis „Password Generator“, „STRENGTH“ */
+  --color-text-placeholder: var(--color-grey-700);   /* placeholder hesla „P4$5W0rD!“ */
+  --color-text-accent:      var(--color-green-200);  /* délka hesla „10“, „COPIED“ */
 
-/* ─── Dark mode ─── */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-surface:         var(--color-neutral-950);
-    --color-surface-raised:  var(--color-neutral-900);
-    --color-surface-overlay: var(--color-neutral-800);
-    --color-surface-sunken:  oklch(0.06 0.003 264);
+  /* ─── Ikona kopírování ─── */
+  --color-icon:       var(--color-green-200);
+  --color-icon-hover: var(--color-white);
 
-    --color-text:          var(--color-neutral-50);
-    --color-text-subtle:   var(--color-neutral-400);
-    --color-text-disabled: var(--color-neutral-600);
-    --color-text-inverse:  var(--color-neutral-950);
+  /* ─── Slider (Character Length) ─── */
+  --color-slider-track:              var(--color-grey-850);
+  --color-slider-fill:               var(--color-green-200);
+  --color-slider-thumb:              var(--color-grey-200);
+  --color-slider-thumb-hover:        var(--color-grey-850);
+  --color-slider-thumb-border-hover: var(--color-green-200);  /* border 2px */
 
-    --color-border:        var(--color-neutral-800);
-    --color-border-strong: var(--color-neutral-600);
-  }
+  /* ─── Checkbox ─── */
+  --color-checkbox-border:       var(--color-grey-200);   /* border 2px */
+  --color-checkbox-border-hover: var(--color-green-200);
+  --color-checkbox-checked:      var(--color-green-200);  /* pozadí zaškrtnutého */
+  --color-checkbox-checkmark:    var(--color-grey-850);   /* fajfka, stroke 3px */
+
+  /* ─── Tlačítko GENERATE ─── */
+  --color-button-bg:           var(--color-green-200);
+  --color-button-text:         var(--color-grey-800);   /* text i šipka */
+  --color-button-bg-hover:     transparent;             /* prosvítá panel grey-800 */
+  --color-button-text-hover:   var(--color-green-200);  /* text i šipka */
+  --color-button-border-hover: var(--color-green-200);  /* border 2px */
+
+  /* ─── Síla hesla ─── */
+  --color-strength-bar-empty: var(--color-grey-200);   /* prázdný sloupec – border 2px */
+  --color-strength-medium:    var(--color-yellow-300);
+  --color-strength-too-weak:  var(--color-red-500);
+  --color-strength-weak:      var(--color-orange-400);
+  --color-strength-strong:    var(--color-green-200);
 }

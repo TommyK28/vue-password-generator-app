@@ -1,12 +1,13 @@
 <script setup lang="ts">
 // Globální nastavení aplikace
 useHead({
-  htmlAttrs: { lang: 'cs' }
+  htmlAttrs: { lang: 'en' }
 })
 </script>
 
 <template>
-  <NuxtLayout>
-    <NuxtPage />
-  </NuxtLayout>
+  <main>
+    <!-- Komponenty aplikace -->
+     <h1>Vue Password Generator App</h1>
+  </main>
 </template>
