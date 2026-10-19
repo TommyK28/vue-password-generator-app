@@ -1,0 +1,23 @@
+{
+  "name": "vue-password-generator-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "typecheck": "nuxt typecheck"
+  },
+  "dependencies": {
+    "nuxt": "^3.15.0",
+    "vue": "^3.5.0",
+    "vue-router": "^4.5.0"
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "latest",
+    "typescript": "^5.9.3",
+    "vue-tsc": "^3.3.13"
+  }
+}

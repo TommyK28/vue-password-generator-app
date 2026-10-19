@@ -1,0 +1,47 @@
+/*
+ * BREAKPOINTS & LAYOUT TOKENS
+ * Container queries (moderní přístup) + media queries fallback.
+ * Breakpointy jsou definovány jako CSS custom properties
+ * pro použití v JavaScript (getComputedStyle).
+ */
+
+:root {
+  /* Breakpoint hodnoty (pro JS přístup) */
+  --breakpoint-xs:  20rem;   /*  320px */
+  --breakpoint-sm:  36rem;   /*  576px */
+  --breakpoint-md:  48rem;   /*  768px */
+  --breakpoint-lg:  62rem;   /*  992px */
+  --breakpoint-xl:  75rem;   /* 1200px */
+  --breakpoint-2xl: 90rem;   /* 1440px */
+  --breakpoint-3xl: 120rem;  /* 1920px */
+
+  /* Container max-width hodnoty */
+  --container-xs:  20rem;   /*  320px */
+  --container-sm:  36rem;   /*  576px */
+  --container-md:  48rem;   /*  768px */
+  --container-lg:  60rem;   /*  960px */
+  --container-xl:  72rem;   /* 1152px */
+  --container-2xl: 84rem;   /* 1344px */
+  --container-full: 100%;
+
+  /* Layout */
+  --layout-max-width:    var(--container-xl);
+  --layout-padding-x:   var(--space-fluid-sm);
+  --layout-padding-y:   var(--space-fluid-md);
+
+  /* Grid */
+  --grid-columns:  12;
+  --grid-gap:      var(--space-6);
+  --grid-gap-sm:   var(--space-4);
+  --grid-gap-lg:   var(--space-8);
+}
+
+/* ─── Container type pro komponenty ─── */
+/* Použití: přidej container-type na parent element */
+.container-query {
+  container-type: inline-size;
+}
+
+.container-query-size {
+  container-type: size;
+}

@@ -1,0 +1,78 @@
+/*
+ * EFFECTS TOKENS
+ * Stíny, přechody, animace, filtry.
+ * Stíny používají oklch() barvy pro přirozenější look.
+ */
+
+:root {
+  /* ─── Box shadows ─── */
+  /* Vrstvené stíny pro realistický vzhled */
+  --shadow-xs:
+    0 1px 2px oklch(0.20 0.02 264 / 0.06);
+
+  --shadow-sm:
+    0 1px 3px oklch(0.20 0.02 264 / 0.08),
+    0 1px 2px oklch(0.20 0.02 264 / 0.06);
+
+  --shadow-md:
+    0 4px 6px  oklch(0.20 0.02 264 / 0.07),
+    0 2px 4px  oklch(0.20 0.02 264 / 0.06);
+
+  --shadow-lg:
+    0 10px 15px oklch(0.20 0.02 264 / 0.08),
+    0  4px  6px oklch(0.20 0.02 264 / 0.06);
+
+  --shadow-xl:
+    0 20px 25px oklch(0.20 0.02 264 / 0.08),
+    0  8px 10px oklch(0.20 0.02 264 / 0.05);
+
+  --shadow-2xl:
+    0 25px 50px oklch(0.20 0.02 264 / 0.15);
+
+  --shadow-inner:
+    inset 0 2px 4px oklch(0.20 0.02 264 / 0.08);
+
+  --shadow-none: none;
+
+  /* Focus ring (přístupnost) */
+  --shadow-focus:
+    0 0 0 3px oklch(0.55 0.22 264 / 0.40);
+
+  --shadow-focus-danger:
+    0 0 0 3px oklch(0.55 0.22 25 / 0.40);
+
+  /* ─── Transitions ─── */
+  --transition-fastest: 75ms ease;
+  --transition-fast:    150ms ease;
+  --transition-normal:  250ms ease;
+  --transition-slow:    350ms ease;
+  --transition-slower:  500ms ease;
+
+  /* Specifické easing funkce */
+  --ease-in:         cubic-bezier(0.4, 0, 1, 1);
+  --ease-out:        cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out:     cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce:     cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-spring:     cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  /* Sémantické transition aliasy */
+  --transition-color:      color var(--transition-fast), background-color var(--transition-fast), border-color var(--transition-fast);
+  --transition-transform:  transform var(--transition-normal) var(--ease-spring);
+  --transition-opacity:    opacity var(--transition-fast);
+  --transition-shadow:     box-shadow var(--transition-fast);
+  --transition-all:        all var(--transition-normal) var(--ease-in-out);
+
+  /* ─── Blur (backdrop-filter) ─── */
+  --blur-sm:  4px;
+  --blur-md:  8px;
+  --blur-lg:  16px;
+  --blur-xl:  24px;
+  --blur-2xl: 40px;
+
+  /* ─── Opacity ─── */
+  --opacity-0:        0;
+  --opacity-disabled: 0.4;
+  --opacity-subtle:   0.6;
+  --opacity-muted:    0.75;
+  --opacity-full:     1;
+}

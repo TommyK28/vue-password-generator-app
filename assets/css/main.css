@@ -1,0 +1,229 @@
+/*
+ * DESIGN SYSTEM — MAIN CSS
+ * ========================
+ * Orchestruje import všech tokenů a definuje
+ * základní styly pomocí @layer cascade layers.
+ *
+ * Pořadí @layer (od nejnižší po nejvyšší specificitu):
+ *   reset → tokens → base → layout → components → utilities
+ */
+
+/* ─── Import design tokenů ─── */
+@import "./tokens/colors.css";
+@import "./tokens/typography.css";
+@import "./tokens/spacing.css";
+@import "./tokens/effects.css";
+@import "./tokens/breakpoints.css";
+
+/* ─── Deklarace cascade layers ─── */
+@layer reset, tokens, base, layout, components, utilities;
+
+/* ═══════════════════════════════════════════════
+   RESET LAYER
+   Moderní CSS reset (opinionated)
+═══════════════════════════════════════════════ */
+@layer reset {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    tab-size: 4;
+    interpolate-size: allow-keywords; /* CSS Overflow Level 5 */
+  }
+
+  body {
+    min-height: 100dvh; /* dynamic viewport height */
+    line-height: var(--line-height-normal);
+    font-family: var(--font-family-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  img,
+  video,
+  svg,
+  canvas {
+    display: block;
+    max-width: 100%;
+  }
+
+  input,
+  button,
+  textarea,
+  select {
+    font: inherit;
+  }
+
+  p,
+  h1, h2, h3, h4, h5, h6 {
+    overflow-wrap: break-word;
+  }
+
+  ol, ul {
+    list-style: none;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: inherit;
+  }
+
+  /* Respektuj uživatelské preference pro pohyb */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   BASE LAYER
+   Základní styly elementů
+═══════════════════════════════════════════════ */
+@layer base {
+  html {
+    color-scheme: light dark;
+    accent-color: var(--color-primary);
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    font-size: var(--font-size-body);
+  }
+
+  /* Typografie */
+  h1 { font-size: var(--font-size-h1); font-weight: var(--font-weight-bold);     line-height: var(--line-height-tight); }
+  h2 { font-size: var(--font-size-h2); font-weight: var(--font-weight-bold);     line-height: var(--line-height-tight); }
+  h3 { font-size: var(--font-size-h3); font-weight: var(--font-weight-semibold); line-height: var(--line-height-snug); }
+  h4 { font-size: var(--font-size-h4); font-weight: var(--font-weight-semibold); line-height: var(--line-height-snug); }
+  h5 { font-size: var(--font-size-h5); font-weight: var(--font-weight-medium);   line-height: var(--line-height-normal); }
+  h6 { font-size: var(--font-size-h6); font-weight: var(--font-weight-medium);   line-height: var(--line-height-normal); }
+
+  p { line-height: var(--line-height-relaxed); }
+
+  code, kbd, samp, pre {
+    font-family: var(--font-family-mono);
+    font-size: var(--font-size-sm);
+  }
+
+  /* Focus viditelný pouze při navigaci klávesnicí */
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  /* Selekce textu */
+  ::selection {
+    background-color: oklch(from var(--color-primary) l c h / 0.25);
+    color: var(--color-text);
+  }
+
+  /* Scrollbar (Chromium) */
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: var(--color-surface-raised); }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-neutral-400);
+    border-radius: var(--radius-full);
+    border: 2px solid var(--color-surface-raised);
+  }
+  ::-webkit-scrollbar-thumb:hover { background: var(--color-neutral-500); }
+}
+
+/* ═══════════════════════════════════════════════
+   LAYOUT LAYER
+   Základní layoutové utility
+═══════════════════════════════════════════════ */
+@layer layout {
+  .container {
+    width: 100%;
+    max-width: var(--layout-max-width);
+    margin-inline: auto;
+    padding-inline: var(--layout-padding-x);
+  }
+
+  .container--fluid {
+    max-width: var(--container-full);
+  }
+
+  /* CSS Grid utility */
+  .grid {
+    display: grid;
+    gap: var(--grid-gap);
+    grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+  }
+
+  /* Flex utility */
+  .flex { display: flex; }
+  .flex-col { display: flex; flex-direction: column; }
+  .items-center { align-items: center; }
+  .justify-center { justify-content: center; }
+  .justify-between { justify-content: space-between; }
+  .gap-sm { gap: var(--space-2); }
+  .gap-md { gap: var(--space-4); }
+  .gap-lg { gap: var(--space-6); }
+
+  /* Stack layout (vertikální mezery) */
+  .stack > * + * {
+    margin-top: var(--space-4);
+  }
+
+  .stack-sm > * + * { margin-top: var(--space-2); }
+  .stack-lg > * + * { margin-top: var(--space-8); }
+}
+
+/* ═══════════════════════════════════════════════
+   UTILITIES LAYER
+   Pomocné třídy s nejvyšší prioritou
+═══════════════════════════════════════════════ */
+@layer utilities {
+  /* Vizuálně skrytý (přístupný pro screen readery) */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  .truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .text-center { text-align: center; }
+  .text-right  { text-align: right; }
+
+  .font-bold     { font-weight: var(--font-weight-bold); }
+  .font-semibold { font-weight: var(--font-weight-semibold); }
+  .font-medium   { font-weight: var(--font-weight-medium); }
+
+  .text-subtle   { color: var(--color-text-subtle); }
+  .text-disabled { color: var(--color-text-disabled); }
+  .text-primary  { color: var(--color-primary); }
+  .text-danger   { color: var(--color-danger); }
+  .text-success  { color: var(--color-success); }
+}

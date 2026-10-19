@@ -1,0 +1,72 @@
+/*
+ * TYPOGRAPHY TOKENS
+ * Modulární škála (ratio 1.25 — Major Third)
+ * Fluid typografie pomocí clamp() a viewport units.
+ */
+
+/* ─── Typed properties pro animovatelné hodnoty ─── */
+@property --font-size-base {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 1rem;
+}
+
+:root {
+  /* Font families */
+  --font-family-sans:  system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-family-serif: Georgia, "Times New Roman", Times, serif;
+  --font-family-mono:  ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, monospace;
+
+  /* Font size škála (fluid pomocí clamp) */
+  /* clamp(min, preferred, max) */
+  --font-size-2xs: clamp(0.625rem,  0.60rem + 0.1vw, 0.694rem);
+  --font-size-xs:  clamp(0.750rem,  0.72rem + 0.15vw, 0.833rem);
+  --font-size-sm:  clamp(0.875rem,  0.84rem + 0.18vw, 0.944rem);
+  --font-size-md:  clamp(1.000rem,  0.96rem + 0.20vw, 1.125rem);  /* base */
+  --font-size-lg:  clamp(1.125rem,  1.08rem + 0.25vw, 1.375rem);
+  --font-size-xl:  clamp(1.250rem,  1.20rem + 0.30vw, 1.625rem);
+  --font-size-2xl: clamp(1.500rem,  1.40rem + 0.50vw, 2.000rem);
+  --font-size-3xl: clamp(1.875rem,  1.70rem + 0.85vw, 2.500rem);
+  --font-size-4xl: clamp(2.250rem,  2.00rem + 1.25vw, 3.125rem);
+  --font-size-5xl: clamp(2.750rem,  2.40rem + 1.75vw, 3.875rem);
+  --font-size-6xl: clamp(3.250rem,  2.80rem + 2.25vw, 4.750rem);
+
+  /* Font weight */
+  --font-weight-thin:       100;
+  --font-weight-extralight: 200;
+  --font-weight-light:      300;
+  --font-weight-regular:    400;
+  --font-weight-medium:     500;
+  --font-weight-semibold:   600;
+  --font-weight-bold:       700;
+  --font-weight-extrabold:  800;
+  --font-weight-black:      900;
+
+  /* Line height */
+  --line-height-none:   1;
+  --line-height-tight:  1.2;
+  --line-height-snug:   1.375;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+  --line-height-loose:  2;
+
+  /* Letter spacing */
+  --letter-spacing-tighter: -0.05em;
+  --letter-spacing-tight:   -0.025em;
+  --letter-spacing-normal:   0;
+  --letter-spacing-wide:     0.025em;
+  --letter-spacing-wider:    0.05em;
+  --letter-spacing-widest:   0.1em;
+
+  /* Sémantické aliasy */
+  --font-size-body:    var(--font-size-md);
+  --font-size-caption: var(--font-size-xs);
+  --font-size-label:   var(--font-size-sm);
+  --font-size-h6: var(--font-size-md);
+  --font-size-h5: var(--font-size-lg);
+  --font-size-h4: var(--font-size-xl);
+  --font-size-h3: var(--font-size-2xl);
+  --font-size-h2: var(--font-size-3xl);
+  --font-size-h1: var(--font-size-4xl);
+  --font-size-display: var(--font-size-5xl);
+}
