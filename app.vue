@@ -1,13 +1,20 @@
 <script setup lang="ts">
-// Globální nastavení aplikace
 useHead({
   htmlAttrs: { lang: 'en' }
 })
 </script>
 
 <template>
-  <main>
-    <!-- Komponenty aplikace -->
-     <h1>Vue Password Generator App</h1>
+  <main class="app">
+    <PasswordGenerator />
   </main>
 </template>
+
+<style scoped>
+.app {
+  display: grid;
+  place-items: center;
+  min-block-size: 100dvh;
+  padding-inline: var(--spacing-200);
+}
+</style>
