@@ -1,146 +1,116 @@
-# Design System
+# Frontend Mentor – Password generator app solution
 
-Starter šablona pro tvorbu design systémů postavená na moderním webovém stacku.
+This is a solution to the [Password generator app challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/password-generator-app-Mr8CLycqjh), built with Nuxt 3, Vue 3 and plain CSS.
 
-## Technologie
+## Table of contents
 
-| Technologie | Verze | Účel |
-|-------------|-------|------|
-| [Nuxt 3](https://nuxt.com) | 3.15+ | Framework (SSR/SSG, routing, auto-imports) |
-| [Vue 3](https://vuejs.org) | 3.5+ | UI framework (Composition API, Script Setup) |
-| [Vite](https://vitejs.dev) | (via Nuxt) | Bundler (HMR, ESM, optimalizovaný build) |
-| CSS (čisté) | — | Stylování bez frameworků |
+- [Overview](#overview)
+  - [The challenge](#the-challenge)
+  - [Screenshot](#screenshot)
+  - [Links](#links)
+- [My process](#my-process)
+  - [Built with](#built-with)
+  - [Project structure](#project-structure)
+  - [What I learned](#what-i-learned)
+  - [Challenges](#challenges)
+  - [Continued development](#continued-development)
+- [Getting started](#getting-started)
 
-## Struktura projektu
+## Overview
+
+### The challenge
+
+Users should be able to:
+
+- Generate a password based on the selected inclusion options
+- Copy the generated password to the computer's clipboard
+- See a strength rating for their generated password
+- View the optimal layout for the interface depending on their device's screen size
+- See hover and focus states for all interactive elements on the page
+
+### Screenshot
+
+![Password generator app preview](./public/preview.jpg)
+
+### Links
+
+- Live site: [tommyk28.github.io/vue-password-generator-app](https://tommyk28.github.io/vue-password-generator-app/)
+- Repository: [github.com/TommyK28/vue-password-generator-app](https://github.com/TommyK28/vue-password-generator-app)
+- Challenge: [Password generator app on Frontend Mentor](https://www.frontendmentor.io/challenges/password-generator-app-Mr8CLycqjh)
+
+## My process
+
+### Built with
+
+- [Nuxt 3](https://nuxt.com) with static generation (`nuxt generate`), deployed to GitHub Pages via GitHub Actions
+- [Vue 3](https://vuejs.org) – Composition API, `<script setup>`, `defineModel`, composables
+- TypeScript in strict mode
+- Plain CSS – custom properties, cascade layers (`@layer`), OKLCH colors, fluid `clamp()` values, logical properties
+- Design tokens taken from the Figma style guide (colors, spacing scale, text presets)
+- Web Crypto API (`crypto.getRandomValues`) and the Clipboard API
+- Mobile-first, fluid layout from 375 px to 768 px and up
+
+### Project structure
 
 ```
-design-system/
-├── assets/
-│   └── css/
-│       ├── tokens/
-│       │   ├── colors.css      # OKLCH barvy + @property typed props
-│       │   ├── typography.css  # Fluid typografie (clamp)
-│       │   ├── spacing.css     # Spacing škála + border-radius + z-index
-│       │   ├── effects.css     # Stíny, přechody, animace
-│       │   └── breakpoints.css # Breakpointy + container query utility
-│       └── main.css            # Orchestrace (@layer + import tokenů + base)
-├── components/
-│   └── Ds/
-│       ├── DsButton.vue        # Tlačítko (5 variant, 3 velikosti, loading)
-│       ├── DsCard.vue          # Karta (elevace, container query)
-│       ├── DsBadge.vue         # Odznak (6 variant, dot indikátor)
-│       └── DsInput.vue         # Textové pole (validace, přístupnost)
-├── layouts/
-│   └── default.vue             # Hlavní layout (sticky header, nav, footer)
-├── pages/
-│   └── index.vue               # Showcase všech komponent
-├── app.vue                     # Kořenová komponenta
-├── nuxt.config.ts              # Nuxt konfigurace
-├── package.json
-├── tsconfig.json
-├── README.md                   # Tato dokumentace
-└── STATUS.md                   # Stav projektu a roadmapa
+├── assets/css/
+│   ├── tokens/          # colors, typography, spacing, motion
+│   ├── reset.css
+│   ├── base.css
+│   ├── utilities.css    # .visually-hidden
+│   └── main.css         # layer order + imports
+├── components/          # PasswordGenerator, PasswordDisplay, CopyButton,
+│                        # CharacterLengthSlider, CheckboxOption,
+│                        # StrengthMeter, GenerateButton
+├── composables/         # usePasswordGenerator, useClipboardCopy
+├── utils/               # characterSets, generatePassword, calculatePasswordStrength
+└── types/               # shared TypeScript types
 ```
 
-## CSS architektura
+### What I learned
 
-### Cascade Layers (`@layer`)
+**Custom form controls without losing semantics.** The slider and checkboxes are native `<input type="range">` and `<input type="checkbox">` with `appearance: none`, so keyboard support and screen reader behaviour come for free. The filled part of the slider track is driven by a `--filled-track-ratio` custom property in WebKit and by `::-moz-range-progress` in Firefox. The checkmark is an inline SVG stacked on top of the input in a single grid cell and shown only for `:checked`.
 
-Pořadí vrstev (od nejnižší po nejvyšší specificitu):
+**Unbiased random passwords.** `Math.random()` is not suitable for passwords, so generation uses `crypto.getRandomValues()`. A plain `value % length` would make some characters more likely than others (modulo bias), so random values from the incomplete last block are rejected. Every selected character set is guaranteed to appear at least once, and the result is shuffled with Fisher–Yates so those guaranteed characters do not sit at the start.
 
-```
-reset → tokens → base → layout → components → utilities
-```
+```ts
+function getRandomIndex(maxExclusive: number): number {
+  const unbiasedLimit = UINT32_RANGE - (UINT32_RANGE % maxExclusive)
+  const randomValues = new Uint32Array(1)
 
-### Design tokeny
+  do {
+    crypto.getRandomValues(randomValues)
+  } while (randomValues[0]! >= unbiasedLimit)
 
-Všechny tokeny jsou definovány jako CSS custom properties v `assets/css/tokens/`.
-
-**Barevný prostor: OKLCH**
-
-```css
-/* Perceptuálně uniformní — stejná lightness = stejná vnímaná jasnost */
---color-primary: oklch(0.55 0.22 264);
-/*                       ↑      ↑    ↑
-                     jasnost  chroma  hue (úhel) */
-```
-
-**Typed custom properties (`@property`)**
-
-```css
-@property --color-primary {
-  syntax: "<color>";      /* typ hodnoty */
-  inherits: true;         /* dědičnost */
-  initial-value: oklch(0.55 0.22 264);  /* výchozí hodnota */
+  return randomValues[0]! % maxExclusive
 }
 ```
 
-Umožňuje: animace CSS proměnných, typovou kontrolu, fallback hodnoty.
+**Clipboard access and announcements.** `navigator.clipboard.writeText()` is asynchronous and can fail (for example outside a secure context), so it is wrapped in `try/catch`. The "Copied" text lives in a `role="status"` region. The state is reset and the DOM updated before each copy, so screen readers announce it again on repeated clicks, and it is cleared whenever a new password is generated.
 
-**Fluid typografie a spacing**
+**Strength calculation.** The rating combines length and variety: under 8 characters is *too weak*, a single character set is *weak*, all four sets with at least 12 characters is *strong*, and everything in between is *medium*. The level is announced through a live region, while the decorative bars are hidden from assistive technology.
 
-```css
---font-size-h1: clamp(2.250rem, 2.00rem + 1.25vw, 3.125rem);
-/* Automaticky škáluje mezi min a max hodnotou dle šířky viewportu */
-```
+**Fluid values from a design.** Instead of breakpoints, spacing and text presets scale between the mobile and desktop values from Figma with `clamp(min, intercept + slope·vw, max)` over the 375–768 px range, for example `--spacing-fluid-200-400` (16 → 32 px).
 
-**CSS Nesting (nativní)**
+### Challenges
 
-```css
-.ds-button {
-  &:hover:not(:disabled) { /* ... */ }
-  &:focus-visible { /* ... */ }
-}
-```
+- Matching the Figma design exactly. Some values differ between mobile and desktop (checkbox label gap, strength box padding, the strength level switching from text preset 3 to preset 2), which led to dedicated fluid tokens instead of fixed values.
+- Styling the range input consistently across browsers, including the hover ring around the thumb. In Figma it sits *outside* the thumb, so it is drawn with `box-shadow` rather than `border`.
+- Keeping icons themeable. Icons are inline SVGs using `currentColor`, so hover colours and forced-colours mode are handled purely in CSS.
+- Deploying a Nuxt app to a GitHub Pages project URL. The static build needs `NUXT_APP_BASE_URL`, and asset paths such as the font preload have to respect the base URL.
 
-**Container Queries**
-
-```css
-@container (max-width: 400px) {
-  .ds-card__footer {
-    flex-direction: column;
-  }
-}
-```
-
-### Komponenty
-
-Všechny komponenty (`Ds*`) jsou automaticky importovány Nuxtem.
-Prefix `Ds` (Design System) odlišuje systémové komponenty od aplikačních.
-
-```vue
-<!-- Bez importu — Nuxt auto-import -->
-<DsButton variant="primary" size="lg">Klikni</DsButton>
-<DsCard elevation="raised" interactive>Obsah</DsCard>
-<DsBadge variant="success" dot>Online</DsBadge>
-<DsInput v-model="value" label="Jméno" required />
-```
-
-## Spuštění
+## Getting started
 
 ```bash
-# Instalace závislostí
+# Install dependencies
 npm install
 
-# Dev server (http://localhost:3000)
+# Development server on http://localhost:3000
 npm run dev
 
-# Produkční build
-npm run build
+# Static build into .output/public
+npx nuxt generate
 
-# Náhled produkčního buildu
-npm run preview
+# Type check
+npm run typecheck
 ```
-
-## Dark mode
-
-Dark mode je automatický dle systémového nastavení (`prefers-color-scheme: dark`).
-Sémantické barevné aliasy (`--color-surface`, `--color-text`, atd.) se přepínají automaticky.
-
-## Přístupnost
-
-- Focus viditelný pouze při navigaci klávesnicí (`:focus-visible`)
-- ARIA atributy na všech interaktivních komponentách
-- `prefers-reduced-motion` respektován (animace vypnuty)
-- Sémantické HTML elementy (`<button>`, `<input>`, `<article>`, `<header>`, atd.)
-- Chybové zprávy napojeny přes `aria-describedby`
