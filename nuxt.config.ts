@@ -1,4 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+
+// GitHub Pages servíruje projekt v podsložce /<repo>/ – nastavuje workflow přes NUXT_APP_BASE_URL
+const baseURL = process.env.NUXT_APP_BASE_URL || '/'
+
 export default defineNuxtConfig({
   devtools: { enabled: true },
 
@@ -10,6 +14,7 @@ export default defineNuxtConfig({
   },
 
   app: {
+    baseURL,
     head: {
       charset: 'utf-8',
       viewport: 'width=device-width, initial-scale=1',
@@ -19,7 +24,7 @@ export default defineNuxtConfig({
       ],
       link: [
         // Lokální font (definice v assets/css/tokens/typography.css)
-        { rel: 'preload', href: '/fonts/jetbrains-mono/JetBrainsMono-Bold.woff2', as: 'font', type: 'font/woff2', crossorigin: '' }
+        { rel: 'preload', href: `${baseURL}fonts/jetbrains-mono/JetBrainsMono-Bold.woff2`, as: 'font', type: 'font/woff2', crossorigin: '' }
       ]
     }
   },

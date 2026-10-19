@@ -1,4 +1,5 @@
-name: Deploy Vite to GitHub Pages
+name: Deploy Nuxt to GitHub Pages
+
 on:
   push:
     branches: [main]
@@ -10,7 +11,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: 'pages'
+  group: pages
   cancel-in-progress: false
 
 jobs:
@@ -18,12 +19,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
-        with: { node-version: 20 }
+        with:
+          node-version: 22
+          cache: npm
+
       - run: npm ci
-      - run: npm run build
+
+      # Statický export (SSG); stránka běží na https://<user>.github.io/<repo>/
+      - run: npx nuxt generate
+        env:
+          NUXT_APP_BASE_URL: /${{ github.event.repository.name }}/
+
       - uses: actions/upload-pages-artifact@v3
-        with: { path: dist }
+        with:
+          path: .output/public
 
   deploy:
     needs: build
