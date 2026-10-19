@@ -3,13 +3,15 @@
  * ========
  */
 
-@layer reset, base;
+@layer reset, base, utilities;
 
 /* ─── Design tokeny ─── */
 @import "./tokens/colors.css";
 @import "./tokens/typography.css";
 @import "./tokens/spacing.css";
+@import "./tokens/motion.css";
 
 /* ─── Styly ve vrstvách ─── */
 @import "./reset.css" layer(reset);
 @import "./base.css" layer(base);
+@import "./utilities.css" layer(utilities);

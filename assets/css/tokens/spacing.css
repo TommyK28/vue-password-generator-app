@@ -16,6 +16,14 @@
   --spacing-2200: 11rem;    /* 176px */
   --spacing-2300: 11.5rem;  /* 184px */
 
+  /* ─── Fluidní spacing: mobil (375px) → tablet/desktop (768px+) ─── */
+  --spacing-fluid-100-200: clamp(var(--spacing-100), 0.0229rem + 2.0356vw, var(--spacing-200));  /*  8 → 16px */
+  --spacing-fluid-200-300: clamp(var(--spacing-200), 0.5229rem + 2.0356vw, var(--spacing-300));  /* 16 → 24px */
+  --spacing-fluid-200-400: clamp(var(--spacing-200), 0.0458rem + 4.0712vw, var(--spacing-400));  /* 16 → 32px */
+
+  /* Border width – Figma stroke 2px (checkbox, sloupce síly, hover Generate a jezdce) */
+  --border-width: 2px;
+
   /* Border radius */
   --radius-full: 9999px;
 

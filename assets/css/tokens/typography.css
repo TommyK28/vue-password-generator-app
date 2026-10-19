@@ -29,6 +29,23 @@
   --line-height-preset-3: 1.3333;  /* 24 / 18 */
   --line-height-preset-4: 1.25;    /* 20 / 16 */
 
+  /* ─── Fluidní presety: mobil (375px) → tablet/desktop (768px+) ─── */
+  /* Preset 1 → na mobilu Preset 2 (heslo, délka hesla) */
+  --font-size-fluid-1:   clamp(var(--font-size-preset-2), 1.0229rem + 2.0356vw, var(--font-size-preset-1));
+  --line-height-fluid-1: clamp(2rem, 1.4036rem + 2.5445vw, 2.625rem);
+
+  /* Preset 2 → na mobilu Preset 4 (nadpis) */
+  --font-size-fluid-2:   clamp(var(--font-size-preset-4), 0.5229rem + 2.0356vw, var(--font-size-preset-2));
+  --line-height-fluid-2: clamp(1.25rem, 0.5344rem + 3.0534vw, 2rem);
+
+  /* Preset 3 → na mobilu Preset 4 (ostatní texty) */
+  --font-size-fluid-3:   clamp(var(--font-size-preset-4), 0.8807rem + 0.5089vw, var(--font-size-preset-3));
+  --line-height-fluid-3: clamp(1.25rem, 1.0115rem + 1.0178vw, 1.5rem);
+
+  /* Preset 2 → na mobilu Preset 3 (úroveň síly hesla) */
+  --font-size-fluid-4:   clamp(var(--font-size-preset-3), 0.7672rem + 1.5267vw, var(--font-size-preset-2));
+  --line-height-fluid-4: clamp(1.5rem, 1.0229rem + 2.0356vw, 2rem);
+
   --letter-spacing-preset: 0;
   --font-weight-base: 700;  
 }
